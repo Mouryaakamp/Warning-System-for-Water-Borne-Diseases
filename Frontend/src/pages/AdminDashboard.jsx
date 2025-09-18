@@ -116,12 +116,88 @@ export default function AdminDashboardScreen() {
     }
   };
 
-  const renderAddUser = () => (
+ const renderAddUser = () => (
     <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-      {/* Add User Card */}
-      {/* ... your existing Add User JSX ... */}
+      <Card className="shadow-sm relative">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setActiveTab("dashboard")}
+          className="absolute top-4 left-4 text-blue-600"
+        >
+          ← Back
+        </Button>
+
+        <CardHeader>
+          <CardTitle>Add New User</CardTitle>
+          <CardDescription>Create a new user account</CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Taluk Name</label>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-full justify-between">
+                  {newUser.taluk || "Select Taluk"}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>Select Taluk</DropdownMenuLabel>
+                {talukOptions.map((taluk) => (
+                  <DropdownMenuItem
+                    key={taluk}
+                    onClick={() => setNewUser({ ...newUser, taluk })}
+                  >
+                    {taluk}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Username</label>
+            <Input
+              placeholder="Enter username"
+              value={newUser.username}
+              onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Password</label>
+            <Input
+              type="password"
+              placeholder="Enter password"
+              value={newUser.password}
+              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Confirm Password</label>
+            <Input
+              type="password"
+              placeholder="Confirm password"
+              value={newUser.confirmPassword}
+              onChange={(e) => setNewUser({ ...newUser, confirmPassword: e.target.value })}
+            />
+            {newUser.confirmPassword &&
+              newUser.confirmPassword !== newUser.password && (
+                <p className="text-sm text-red-500">Passwords do not match</p>
+              )}
+          </div>
+
+          <Button onClick={handleAddUser} className="w-full">
+            <span className="material-icons mr-2">add</span>
+            Add User
+          </Button>
+        </CardContent>
+      </Card>
     </div>
-  );
+  )
+
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
